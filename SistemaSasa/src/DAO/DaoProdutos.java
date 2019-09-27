@@ -24,10 +24,10 @@ public class DaoProdutos extends ConexaoMySql {
     public int salvarProdutosDAO(ModelProdutos pModelProdutos) {
         try {
             this.conectar();
-            return this.insertSQL("INSERT INTO tbl_produto ("
-                    + "pro_nome,"
-                    + "pro_valor,"
-                    + "pro_estoque"
+            return this.insertSQL("INSERT INTO tbl_produtos ("
+                    + "nm_produto,"
+                    + "vlr_produto,"
+                    + "estq_produto"
                     + ") VALUES ("
                     + "'" + pModelProdutos.getNomeProd()+ "',"
                     + "'" + pModelProdutos.getValorProd()+ "',"
@@ -72,10 +72,10 @@ public class DaoProdutos extends ConexaoMySql {
         try {
             this.conectar();
             return this.executarUpdateDeleteSQL(
-                    "UPDATE tbl_produto SET "
-                    + "pro_nome = '" + pModelProdutos.getNomeProd()+ "',"
-                    + "pro_valor = '" + pModelProdutos.getValorProd()+ "',"
-                    + "pro_estoque = '" + pModelProdutos.getEstoqProd()+ "'"
+                    "UPDATE tbl_produtos SET "
+                    + "nm_produto = '" + pModelProdutos.getNomeProd()+ "',"
+                    + "vlr_produto = '" + pModelProdutos.getValorProd()+ "',"
+                    + "estq_produto = '" + pModelProdutos.getEstoqProd()+ "'"
                     + " WHERE pk_id_produto = '" + pModelProdutos.getIdProduto() + "'"
             );
 
@@ -100,10 +100,10 @@ public class DaoProdutos extends ConexaoMySql {
             this.conectar();
             this.executarSQL("SELECT "
                     + "pk_id_produto, "
-                    + "pro_nome,"
-                    + "pro_valor,"
-                    + "pro_estoque "
-                    + "FROM tbl_produto WHERE pk_id_produto = '" + pIdProduto + "';");
+                    + "nm_produto,"
+                    + "vlr_produto,"
+                    + "estq_produto "
+                    + "FROM tbl_produtos WHERE pk_id_produto = '" + pIdProduto + "';");
             while (this.getResultSet().next()) {
                 modelProdutos.setIdProduto(this.getResultSet().getInt(1));
                 modelProdutos.setNomeProd(this.getResultSet().getString(2));
@@ -131,10 +131,10 @@ public class DaoProdutos extends ConexaoMySql {
             this.conectar();
             this.executarSQL("SELECT "
                     + "pk_id_produto, "
-                    + "pro_nome,"
-                    + "pro_valor,"
-                    + "pro_estoque "
-                    + "FROM tbl_produto WHERE pro_nome = '" + pNomeProduto + "';");
+                    + "nm_produto,"
+                    + "vlr_produto,"
+                    + "estq_produto "
+                    + "FROM tbl_produtos WHERE nm_produto = '" + pNomeProduto + "';");
             while (this.getResultSet().next()) {
                 modelProdutos.setIdProduto(this.getResultSet().getInt(1));
                 modelProdutos.setNomeProd(this.getResultSet().getString(2));
@@ -151,7 +151,7 @@ public class DaoProdutos extends ConexaoMySql {
     }
 
     /**
-     * Retornar uma lista de completa produtos
+     * Retornar uma lista completa de produtos
      *
      * @return listaModelProdutos
      */
@@ -162,10 +162,10 @@ public class DaoProdutos extends ConexaoMySql {
             this.conectar();
             this.executarSQL("SELECT "
                     + "pk_id_produto, "
-                    + "pro_nome,"
-                    + "pro_valor,"
-                    + "pro_estoque "
-                    + "FROM tbl_produto;");
+                    + "nm_produto,"
+                    + "vlr_produto,"
+                    + "estq_produto "
+                    + "FROM tbl_produtos;");
 
             while (this.getResultSet().next()) {
                 modelProdutos = new ModelProdutos();
@@ -193,8 +193,8 @@ public class DaoProdutos extends ConexaoMySql {
             this.conectar();
             for (int i = 0; i < pListaModelProdutoses.size(); i++) {
                 this.executarUpdateDeleteSQL(
-                        "UPDATE tbl_produto SET "
-                        + "pro_estoque = '" + pListaModelProdutoses.get(i).getEstoqProd()+ "'"
+                        "UPDATE tbl_produtos SET "
+                        + "estq_produto = '" + pListaModelProdutoses.get(i).getEstoqProd()+ "'"
                         + " WHERE pk_id_produto = '" + pListaModelProdutoses.get(i).getIdProduto() + "'"
                 );
             }
