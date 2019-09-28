@@ -5,17 +5,28 @@
  */
 package view;
 
+import controller.ControllerClientes;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ModelClientes;
+
 /**
  *
  * @author Jeferson
  */
 public class ViewClientes extends javax.swing.JFrame {
-
+    
+    ControllerClientes controllerClientes = new ControllerClientes();
+    ModelClientes modelClientes = new ModelClientes();
+    ArrayList<ModelClientes>listaModelClientes = new ArrayList<>();
     /**
      * Creates new form ViewCliente
      */
     public ViewClientes() {
         initComponents();
+        preencherTabelaClientes();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -45,7 +56,7 @@ public class ViewClientes extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtTel = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtCliente = new javax.swing.JTable();
+        tblCliente = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -56,6 +67,8 @@ public class ViewClientes extends javax.swing.JFrame {
         setTitle("Clientes");
 
         jLabel1.setText("Código:");
+
+        txtCodigo.setEnabled(false);
 
         jLabel2.setText("Nome:");
 
@@ -73,7 +86,7 @@ public class ViewClientes extends javax.swing.JFrame {
 
         jLabel8.setText("Tel:");
 
-        jtCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -89,27 +102,47 @@ public class ViewClientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jtCliente);
-        if (jtCliente.getColumnModel().getColumnCount() > 0) {
-            jtCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jtCliente.getColumnModel().getColumn(1).setPreferredWidth(250);
-            jtCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jScrollPane1.setViewportView(tblCliente);
+        if (tblCliente.getColumnModel().getColumnCount() > 0) {
+            tblCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblCliente.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/cross-icon.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/novo.png"))); // NOI18N
         btnNovo.setText("Novo");
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Save-icon.png"))); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/arrow-switch-icon.png"))); // NOI18N
         btnAlterar.setText("Alterar");
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Delete-icon.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -231,6 +264,51 @@ public class ViewClientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        modelClientes.setNomeCliente(this.txtNome.getText());
+        modelClientes.setTelCliente(this.txtTel.getText());
+        modelClientes.setEnderecoCliente(this.txtEndereco.getText());
+        modelClientes.setBairroCliente(this.txtBairro.getText());
+        modelClientes.setCidadeCliente(this.txtCidade.getText());
+        modelClientes.setUfCliente(this.comboEstado.getSelectedItem().toString());
+        modelClientes.setCepCliente(this.txtCep.getText());
+        
+        if(controllerClientes.salvarClientesController(modelClientes) > 0){
+            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
+            // Preenche clinte cadastrado na tabela
+            this.preencherTabelaClientes();
+            this.habilitarDesabilitarCampos(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+         // Exclui um cliente do Banco
+        int linha = tblCliente.getSelectedRow();
+        int codigoCliente = (int) tblCliente.getValueAt(linha, 0);
+
+        if (controllerClientes.excluirClientesController(codigoCliente)) {
+            JOptionPane.showMessageDialog(this, "Cliente excluído com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaClientes();
+            this.habilitarDesabilitarCampos(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir cliente!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        // TODO add your handling code here:
+        habilitarDesabilitarCampos(true);
+    }//GEN-LAST:event_btnNovoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -266,6 +344,50 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
     }
+    
+    /**
+     * Habilitar e desabilitar os campos do formulários
+     *
+     * @param condicao
+     */
+    private void habilitarDesabilitarCampos(boolean condicao) {
+        txtNome.setEnabled(condicao);
+        txtTel.setEnabled(condicao);
+        txtEndereco.setEnabled(condicao);
+        txtBairro.setEnabled(condicao);
+        txtCidade.setEnabled(condicao);
+        comboEstado.setEnabled(condicao);
+        txtCep.setEnabled(condicao);
+    }
+
+    /**
+     * Limpar os campos do formulários
+     */
+    private void limparCampos() {
+        txtNome.setText("");
+        txtTel.setText("");
+        txtEndereco.setText("");
+        txtBairro.setText("");
+        txtCidade.setText("");
+        txtCep.setText("");
+    }
+    
+    //Método para carregar tabela com os clientes cadastrados
+    private void preencherTabelaClientes(){
+        listaModelClientes = controllerClientes.getListaClientesController();
+        DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
+        modelo.setNumRows(0);
+        // Inserir clientes na tabela
+        int cont = listaModelClientes.size();
+        for(int i = 0; i < cont; i++){
+            modelo.addRow(new Object[]{
+                listaModelClientes.get(i).getIdCliente(),
+                listaModelClientes.get(i).getNomeCliente(),
+                listaModelClientes.get(i).getTelCliente(),
+            });
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -284,7 +406,7 @@ public class ViewClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtCliente;
+    private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JTextField txtCep;
     private javax.swing.JTextField txtCidade;
