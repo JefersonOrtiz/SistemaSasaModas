@@ -57,6 +57,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGap(0, 447, Short.MAX_VALUE)
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 0, 255));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(299, 44));
 
         jMenu1.setText("Arquivos");
