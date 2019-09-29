@@ -16,10 +16,12 @@ import model.ModelClientes;
  * @author Jeferson
  */
 public class ViewClientes extends javax.swing.JFrame {
-    
+
     ControllerClientes controllerClientes = new ControllerClientes();
     ModelClientes modelClientes = new ModelClientes();
-    ArrayList<ModelClientes>listaModelClientes = new ArrayList<>();
+    ArrayList<ModelClientes> listaModelClientes = new ArrayList<>();
+    String salvarAlteracao;
+
     /**
      * Creates new form ViewCliente
      */
@@ -27,6 +29,8 @@ public class ViewClientes extends javax.swing.JFrame {
         initComponents();
         preencherTabelaClientes();
         setLocationRelativeTo(null);
+        this.habilitarDesabilitarCampos(false);
+        this.limparCampos();
     }
 
     /**
@@ -52,9 +56,7 @@ public class ViewClientes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         comboEstado = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtCep = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtTel = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCliente = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
@@ -62,6 +64,8 @@ public class ViewClientes extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        txtCep = new javax.swing.JFormattedTextField();
+        txtTel = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -80,7 +84,7 @@ public class ViewClientes extends javax.swing.JFrame {
 
         jLabel6.setText("Estado:");
 
-        comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "---", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
+        comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
 
         jLabel7.setText("CEP:");
 
@@ -117,7 +121,7 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
 
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/novo.png"))); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Add-icon.png"))); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +139,11 @@ public class ViewClientes extends javax.swing.JFrame {
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/arrow-switch-icon.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Delete-icon.png"))); // NOI18N
         btnExcluir.setText("Excluir");
@@ -143,6 +152,18 @@ public class ViewClientes extends javax.swing.JFrame {
                 btnExcluirActionPerformed(evt);
             }
         });
+
+        try {
+            txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            txtTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -266,32 +287,22 @@ public class ViewClientes extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        
+        this.habilitarDesabilitarCampos(false);
+        this.limparCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        modelClientes.setNomeCliente(this.txtNome.getText());
-        modelClientes.setTelCliente(this.txtTel.getText());
-        modelClientes.setEnderecoCliente(this.txtEndereco.getText());
-        modelClientes.setBairroCliente(this.txtBairro.getText());
-        modelClientes.setCidadeCliente(this.txtCidade.getText());
-        modelClientes.setUfCliente(this.comboEstado.getSelectedItem().toString());
-        modelClientes.setCepCliente(this.txtCep.getText());
-        
-        if(controllerClientes.salvarClientesController(modelClientes) > 0){
-            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
-            // Preenche clinte cadastrado na tabela
-            this.preencherTabelaClientes();
-            this.habilitarDesabilitarCampos(false);
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+        if (salvarAlteracao.equals("salvar")) {
+            this.salvarCliente();
+        } else if (salvarAlteracao.equals("alterar")) {
+            this.alterarCliente();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
-         // Exclui um cliente do Banco
+        // Exclui um cliente do Banco
         int linha = tblCliente.getSelectedRow();
         int codigoCliente = (int) tblCliente.getValueAt(linha, 0);
 
@@ -306,8 +317,33 @@ public class ViewClientes extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
-        habilitarDesabilitarCampos(true);
+        salvarAlteracao = "salvar";
+        this.habilitarDesabilitarCampos(true);
+        this.limparCampos();
     }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        salvarAlteracao = "alterar";
+        this.habilitarDesabilitarCampos(true);
+        int linha = tblCliente.getSelectedRow();
+        try {
+            int codigoCliente = (int) this.tblCliente.getValueAt(linha, 0);
+            // Recuperar dados do banco
+            modelClientes = controllerClientes.getClientesController(codigoCliente);
+            // Setar na interface
+            this.txtCodigo.setText(String.valueOf(modelClientes.getIdCliente()));
+            this.txtNome.setText(modelClientes.getNomeCliente());
+            this.txtTel.setText(String.valueOf(modelClientes.getTelCliente()));
+            this.txtEndereco.setText(modelClientes.getEnderecoCliente());
+            this.txtBairro.setText(modelClientes.getBairroCliente());
+            this.txtCidade.setText(modelClientes.getCidadeCliente());
+            this.comboEstado.setSelectedItem(modelClientes.getUfCliente());
+            this.txtCep.setText(modelClientes.getCepCliente());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "AVISO:", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -345,6 +381,45 @@ public class ViewClientes extends javax.swing.JFrame {
         });
     }
     
+    private void salvarCliente() {
+        // Salva um novo cliente no Banco
+        modelClientes.setNomeCliente(this.txtNome.getText());
+        modelClientes.setTelCliente(this.txtTel.getText());
+        modelClientes.setEnderecoCliente(this.txtEndereco.getText());
+        modelClientes.setBairroCliente(this.txtBairro.getText());
+        modelClientes.setCidadeCliente(this.txtCidade.getText());
+        modelClientes.setUfCliente(this.comboEstado.getSelectedItem().toString());
+        modelClientes.setCepCliente(this.txtCep.getText());
+       if (controllerClientes.salvarClientesController(modelClientes) > 0) {
+            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
+            // Preenche cliente cadastrado na tabela
+            this.preencherTabelaClientes();
+            this.habilitarDesabilitarCampos(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void alterarCliente() {
+        // Alterar um cliente no Banco
+        modelClientes.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
+        modelClientes.setNomeCliente(this.txtNome.getText());
+        modelClientes.setTelCliente(this.txtTel.getText());
+        modelClientes.setEnderecoCliente(this.txtEndereco.getText());
+        modelClientes.setBairroCliente(this.txtBairro.getText());
+        modelClientes.setCidadeCliente(this.txtCidade.getText());
+        modelClientes.setUfCliente(this.comboEstado.getSelectedItem().toString());
+        modelClientes.setCepCliente(this.txtCep.getText());
+        if (controllerClientes.atualizarClientesController(modelClientes)) {
+            JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaClientes();
+            this.limparCampos();
+            this.habilitarDesabilitarCampos(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao alterar cliente!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * Habilitar e desabilitar os campos do formulários
      *
@@ -358,6 +433,7 @@ public class ViewClientes extends javax.swing.JFrame {
         txtCidade.setEnabled(condicao);
         comboEstado.setEnabled(condicao);
         txtCep.setEnabled(condicao);
+        btnSalvar.setEnabled(condicao);
     }
 
     /**
@@ -371,23 +447,22 @@ public class ViewClientes extends javax.swing.JFrame {
         txtCidade.setText("");
         txtCep.setText("");
     }
-    
+
     //Método para carregar tabela com os clientes cadastrados
-    private void preencherTabelaClientes(){
+    private void preencherTabelaClientes() {
         listaModelClientes = controllerClientes.getListaClientesController();
         DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
         modelo.setNumRows(0);
         // Inserir clientes na tabela
         int cont = listaModelClientes.size();
-        for(int i = 0; i < cont; i++){
+        for (int i = 0; i < cont; i++) {
             modelo.addRow(new Object[]{
                 listaModelClientes.get(i).getIdCliente(),
                 listaModelClientes.get(i).getNomeCliente(),
-                listaModelClientes.get(i).getTelCliente(),
-            });
+                listaModelClientes.get(i).getTelCliente(),});
         }
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -408,11 +483,11 @@ public class ViewClientes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtBairro;
-    private javax.swing.JTextField txtCep;
+    private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtTel;
+    private javax.swing.JFormattedTextField txtTel;
     // End of variables declaration//GEN-END:variables
 }

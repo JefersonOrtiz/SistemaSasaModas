@@ -126,7 +126,7 @@ public class ViewProdutos extends javax.swing.JFrame {
             }
         });
 
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/novo.png"))); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Add-icon.png"))); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,7 +302,7 @@ public class ViewProdutos extends javax.swing.JFrame {
         int linha = tblProduto.getSelectedRow();
         try {
             int codigoProduto = (int) this.tblProduto.getValueAt(linha, 0);
-            // Recuperar dados do baanco
+            // Recuperar dados do banco
             modelProdutos = controllerProdutos.retornarProdutoController(codigoProduto);
             // Setar na interface
             this.txtCodigo.setText(String.valueOf(modelProdutos.getIdProduto()));
@@ -398,6 +398,7 @@ public class ViewProdutos extends javax.swing.JFrame {
         txtDescricao.setEnabled(condicao);
         txtEstoque.setEnabled(condicao);
         txtValor.setEnabled(condicao);
+        btnSalvar.setEnabled(condicao);
     }
 
     /**

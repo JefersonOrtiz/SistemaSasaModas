@@ -219,7 +219,7 @@
         <Component class="javax.swing.JComboBox" name="comboEstado">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="28">
+              <StringArray count="27">
                 <StringItem index="0" value="AC"/>
                 <StringItem index="1" value="AL"/>
                 <StringItem index="2" value="AM"/>
@@ -233,21 +233,20 @@
                 <StringItem index="10" value="MG"/>
                 <StringItem index="11" value="MS"/>
                 <StringItem index="12" value="MT"/>
-                <StringItem index="13" value="---"/>
-                <StringItem index="14" value="PA"/>
-                <StringItem index="15" value="PB"/>
-                <StringItem index="16" value="PE"/>
-                <StringItem index="17" value="PI"/>
-                <StringItem index="18" value="PR"/>
-                <StringItem index="19" value="RJ"/>
-                <StringItem index="20" value="RN"/>
-                <StringItem index="21" value="RO"/>
-                <StringItem index="22" value="RR"/>
-                <StringItem index="23" value="RS"/>
-                <StringItem index="24" value="SC"/>
-                <StringItem index="25" value="SE"/>
-                <StringItem index="26" value="SP"/>
-                <StringItem index="27" value="TO"/>
+                <StringItem index="13" value="PA"/>
+                <StringItem index="14" value="PB"/>
+                <StringItem index="15" value="PE"/>
+                <StringItem index="16" value="PI"/>
+                <StringItem index="17" value="PR"/>
+                <StringItem index="18" value="RJ"/>
+                <StringItem index="19" value="RN"/>
+                <StringItem index="20" value="RO"/>
+                <StringItem index="21" value="RR"/>
+                <StringItem index="22" value="RS"/>
+                <StringItem index="23" value="SC"/>
+                <StringItem index="24" value="SE"/>
+                <StringItem index="25" value="SP"/>
+                <StringItem index="26" value="TO"/>
               </StringArray>
             </Property>
           </Properties>
@@ -260,14 +259,10 @@
             <Property name="text" type="java.lang.String" value="CEP:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCep">
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tel:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtTel">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -325,7 +320,7 @@
         <Component class="javax.swing.JButton" name="btnNovo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagens/16x16/novo.png"/>
+              <Image iconType="3" name="/imagens/16x16/Add-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Novo"/>
           </Properties>
@@ -351,6 +346,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Alterar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnExcluir">
           <Properties>
@@ -362,6 +360,20 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="txtCep">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+              <Format format="#####-###" subtype="-1" type="5"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="txtTel">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+              <Format format="(##)#####-####" subtype="-1" type="5"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
