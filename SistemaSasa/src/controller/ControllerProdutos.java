@@ -52,6 +52,14 @@ public class ControllerProdutos {
     public ModelProdutos retornarProdutoController(int pCodigo){
         return this.daoProdutos.retornarProdutoDAO(pCodigo);
     }
+    /**
+     * Retorna produto pelo nome
+     * @param pNomeProd
+     * @return 
+     */
+    public ModelProdutos retornarProdutoController(String pNomeProd){
+        return this.daoProdutos.retornarProdutoDAO(pNomeProd);
+    }
     
     /**
      * Retornar uma lista de produtos
@@ -59,5 +67,13 @@ public class ControllerProdutos {
      */
     public ArrayList<ModelProdutos> retornarListaProdutoController(){
         return this.daoProdutos.retornarListaProdutosDAO();
+    }
+    /**
+     * Alterar lsta de produtos no banco
+     * @param pListaModelProdutos
+     * @return 
+     */
+    public boolean alterarEstoqueProdutoController(ArrayList<ModelProdutos> pListaModelProdutos) {
+        return this.daoProdutos.alterarEstoqueProdutosDAO(pListaModelProdutos);
     }
 }

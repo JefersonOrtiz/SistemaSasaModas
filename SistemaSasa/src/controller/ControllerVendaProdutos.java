@@ -56,4 +56,13 @@ public class ControllerVendaProdutos {
     public boolean excluirVendaProdutosController(int pIdVendaProduto){
         return this.daoVendaProdutos.excluirVendaProdutosDAO(pIdVendaProduto);
     }
+    
+    /**
+     * Salva uma lista baixa no estoque
+     * @param pListaModelVendaProdutoses
+     * @return 
+     */
+    public boolean salvarVendaProdutosController(ArrayList<ModelVendaProdutos> pListaModelVendaProdutoses) {
+        return this.daoVendaProdutos.salvarVendaProdutosDAO(pListaModelVendaProdutoses);
+    }
 }

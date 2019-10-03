@@ -70,24 +70,44 @@ public class ViewClientes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
 
+        jPanel1.setBackground(new java.awt.Color(255, 0, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel1.setText("Código:");
 
+        txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         txtCodigo.setEnabled(false);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel2.setText("Nome:");
 
+        txtNome.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel3.setText("Endereço:");
 
+        txtEndereco.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel4.setText("Bairro:");
 
+        txtBairro.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel5.setText("Cidade:");
 
+        txtCidade.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel6.setText("Estado:");
 
+        comboEstado.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel7.setText("CEP:");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         jLabel8.setText("Tel:");
 
         tblCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -113,6 +133,7 @@ public class ViewClientes extends javax.swing.JFrame {
             tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/cross-icon.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +142,7 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
 
+        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Add-icon.png"))); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +151,7 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Save-icon.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +160,7 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
 
+        btnAlterar.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/arrow-switch-icon.png"))); // NOI18N
         btnAlterar.setText("Alterar");
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +169,7 @@ public class ViewClientes extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Delete-icon.png"))); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -158,12 +183,14 @@ public class ViewClientes extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCep.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         try {
             txtTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtTel.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -223,7 +250,7 @@ public class ViewClientes extends javax.swing.JFrame {
                                 .addComponent(btnAlterar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                 .addComponent(btnCancelar)))
                         .addContainerGap())))
         );
@@ -267,7 +294,7 @@ public class ViewClientes extends javax.swing.JFrame {
                     .addComponent(btnSalvar)
                     .addComponent(btnAlterar)
                     .addComponent(btnExcluir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -281,7 +308,7 @@ public class ViewClientes extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(628, 538));
+        setSize(new java.awt.Dimension(628, 567));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

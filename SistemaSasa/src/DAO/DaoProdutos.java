@@ -120,12 +120,12 @@ public class DaoProdutos extends ConexaoMySql {
     }
 
     /**
-     * retornar um produto pelo codigo
+     * retornar um produto pelo nome
      *
-     * @param pNomeProduto
+     * @param pNomeProd
      * @return modelproduto
      */
-    public ModelProdutos retornarProdutoDAO(String pNomeProduto) {
+    public ModelProdutos retornarProdutoDAO(String pNomeProd) {
         ModelProdutos modelProdutos = new ModelProdutos();
         try {
             this.conectar();
@@ -134,7 +134,7 @@ public class DaoProdutos extends ConexaoMySql {
                     + "nm_produto,"
                     + "vlr_produto,"
                     + "estq_produto "
-                    + "FROM tbl_produtos WHERE nm_produto = '" + pNomeProduto + "';");
+                    + "FROM tbl_produtos WHERE nm_produto = '" + pNomeProd + "';");
             while (this.getResultSet().next()) {
                 modelProdutos.setIdProduto(this.getResultSet().getInt(1));
                 modelProdutos.setNomeProd(this.getResultSet().getString(2));

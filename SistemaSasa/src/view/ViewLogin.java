@@ -149,12 +149,10 @@ public class ViewLogin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(664, 491));
+        setSize(new java.awt.Dimension(664, 496));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
