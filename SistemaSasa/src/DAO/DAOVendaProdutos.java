@@ -152,7 +152,7 @@ public class DAOVendaProdutos extends ConexaoMySql {
             return this.executarUpdateDeleteSQL(
                     "DELETE FROM tbl_venda_produtos "
                     + " WHERE "
-                    + "pk_id_venda_produto = '" + pIdVendaProduto + "'"
+                    + "fk_vendas = '" + pIdVendaProduto + "'"
                     + ";"
             );
         } catch (Exception e) {

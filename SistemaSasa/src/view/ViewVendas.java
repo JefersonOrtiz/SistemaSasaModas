@@ -7,6 +7,7 @@ package view;
 
 import controller.ControllerClientes;
 import controller.ControllerProdutos;
+import controller.ControllerProdutosVendasProdutos;
 import controller.ControllerVendaProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasCliente;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelClientes;
 import model.ModelProdutos;
+import model.ModelProdutosVendasProdutos;
 import model.ModelVendaProdutos;
 import model.ModelVendas;
 import model.ModelVendasCliente;
@@ -42,6 +44,10 @@ public class ViewVendas extends javax.swing.JFrame {
     ControllerVendaProdutos controllerVendaProdutos = new ControllerVendaProdutos();
     ModelVendaProdutos modelVendaProdutos = new ModelVendaProdutos();
     ArrayList<ModelVendaProdutos> listaModelVendaProdutoses = new ArrayList<>();
+    ControllerProdutosVendasProdutos controllerProdutosVendasProdutos = new ControllerProdutosVendasProdutos();
+    ModelProdutosVendasProdutos modelProdutosVendasProdutos = new ModelProdutosVendasProdutos();
+    ArrayList<ModelProdutosVendasProdutos> listaModelProdutosVendasProdutoses = new ArrayList<>();
+    String alterarSalvar;
 
     /**
      * Creates new form ViewVendas
@@ -405,6 +411,11 @@ public class ViewVendas extends javax.swing.JFrame {
         btnAlterar.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/arrow-switch-icon.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/16x16/Delete-icon.png"))); // NOI18N
@@ -501,11 +512,26 @@ public class ViewVendas extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
         int linha = tbVendas.getSelectedRow();
-        int codigo = (int) tbVendas.getValueAt(linha, 0);
+        int codigoVenda = (int) tbVendas.getValueAt(linha, 0);
+        listaModelProdutos = new ArrayList<>();
+        listaModelProdutosVendasProdutoses = controllerProdutosVendasProdutos.getListaProdutosVendasProdutosController(codigoVenda);
+        for (int i = 0; i < listaModelProdutosVendasProdutoses.size(); i++) {
+            modelProdutos = new ModelProdutos();
+            modelProdutos.setIdProduto(listaModelProdutosVendasProdutoses.get(i).getModelProdutos().getIdProduto());
+            modelProdutos.setEstoqProd(
+                    listaModelProdutosVendasProdutoses.get(i).getModelProdutos().getEstoqProd()
+                    + listaModelProdutosVendasProdutoses.get(i).getModelVendaProdutos().getQtdVendaProd());
+            listaModelProdutos.add(modelProdutos);
 
-        if (controllerVendas.excluirVendasController(codigo)) {
-            JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
-            this.preencherVendas();
+        }
+        if (controllerProdutos.alterarEstoqueProdutoController(listaModelProdutos)) {
+            controllerVendaProdutos.excluirVendaProdutosController(codigoVenda);
+            if (controllerVendas.excluirVendasController(codigoVenda)) {
+                JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "ATENÇÃO!", JOptionPane.WARNING_MESSAGE);
+                this.preencherVendas();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao excluir venda!", "ERRO:", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao excluir venda!", "ERRO:", JOptionPane.ERROR_MESSAGE);
         }
@@ -539,6 +565,7 @@ public class ViewVendas extends javax.swing.JFrame {
 
     private void txtDescFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescFocusLost
         // TODO add your handling code here:
+        alterarSalvar = "novo";
         somarValorTotalProdutos();
     }//GEN-LAST:event_txtDescFocusLost
 
@@ -604,6 +631,11 @@ public class ViewVendas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao salvar produtos da venda!", "ERRO:", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        alterarSalvar = "alterar";
+    }//GEN-LAST:event_btnAlterarActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -647,6 +679,7 @@ public class ViewVendas extends javax.swing.JFrame {
         listaModelVendasClientes = controllerVendasCliente.getListaVendasClienteController();
 
         int cont = listaModelVendasClientes.size();
+        modelo.setNumRows(0);
         for (int i = 0; i < cont; i++) {
             modelo.addRow(new Object[]{
                 listaModelVendasClientes.get(i).getModelVendas().getIdVenda(),
